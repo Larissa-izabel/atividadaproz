@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+  <html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <title>Minecraft</title>
+    <link rel="stylesheet" href="style.css">
+
+  <style> /* começo do style */
+    * { 
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-image: url(imagem/imagem1.jpg);
+      background-size: cover;
+      background-position: center;
+      color: white;
+      min-height: 100vh;
+      padding-top: 80px;
+    }
+
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 80px;
+      background-color: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+
+    .top-bar img {
+      height: 350px;
+    }
+
+    main {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start; /* alinhado ao topo para não subir a caixa */
+      height: calc(100vh - 80px);
+      padding-top: 20px; /* espaço entre a barra fixa e a caixa */
+      overflow-y: auto; /* permite scroll se o conteúdo aumentar */
+    }
+
+    .box {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 400px;
+      text-align: left;
+    }
+
+    .tag {
+      background-color: #ccc;
+      color: #111;
+      display: inline-block;
+      padding: 4px 10px;
+      margin-bottom: 10px;
+      font-size: 0.9em;
+      border-radius: 4px;
+    }
+
+    h1 {
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-size: 14px;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .opcoes {
+      list-style-type: square;
+      margin-bottom: 20px;
+      padding-left: 20px;
+    }
+
+    .opcoes li {
+      margin: 5px 0;
+    }
+
+    .botoes button {
+      background-color: limegreen;
+      border: none;
+      padding: 10px 20px;
+      margin-right: 10px;
+      cursor: pointer;
+      color: black;
+      font-weight: bold;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+
+    .botoes button:hover {
+      background-color: #a5ff00;
+    }
+    /* fim do style */
+  </style> 
+
+  </head>
+  <body>
+    <!-- Barra fixa com a logo -->
+    <div class="top-bar">
+      <img src="imagem/logo3.png" alt="Logo Minecraft">
+    </div>
+
+    <main>
+      <section class="box">
+        <h3 class="tag">GAME PASS</h3>
+        <h1>Minecraft</h1>
+
+        <ul class="opcoes">
+          <li onclick="carregarJogo('Criativo')">Modo Criativo</li>
+          <li onclick="carregarJogo('Sobrevivencia')">Modo Sobrevivência</li>
+          <li onclick="carregarJogo('Aventura')">Modo Aventura</li>
+          <div id="jogos"></div>
+        </ul>
+
+      <div class="botoes">
+        <button onclick="obter()">DOWNLOAD</button>
+        <button onclick="saibamais()">SAIBA MAIS</button>
+      </div>
+
+      <div id="informacoes" style="display:none; margin-top:20px;">
+        <p>Minecraft é um dos jogos mais populares do mundo, conhecido por seu estilo visual feito de blocos e pela liberdade que oferece aos jogadores. Criado pela Mojang e lançado oficialmente em 2011, o jogo coloca o jogador em um mundo aberto onde tudo pode ser explorado, construído e modificado. Com paisagens variadas como florestas, oceanos, cavernas e montanhas, Minecraft permite que cada aventura seja única. É possível jogar no modo criativo, onde você tem recursos ilimitados para construir livremente, ou no modo sobrevivência, em que é preciso coletar materiais, enfrentar monstros e sobreviver aos desafios da natureza. Um dos maiores atrativos do jogo é sua capacidade de estimular a criatividade, permitindo que jogadores de todas as idades criem casas, castelos, máquinas e até mundos inteiros. Além disso, Minecraft também é usado na educação para ensinar lógica, programação e habilidades de trabalho em equipe. Mais do que um jogo, Minecraft se tornou uma ferramenta de expressão, aprendizado e imaginação para milhões de pessoas ao redor do mundo.</p>
+      </div>
+
+      <script>
+        function saibamais() {
+          const infoDiv = document.getElementById("informacoes");
+          infoDiv.style.display = "block";
+        }
+
+        function obter() {
+          const link = document.createElement('a');
+          link.href = 'https://tlauncher.org/#dPopup'; // substitua pelo link real do arquivo
+          link.download = ''; // pode deixar vazio ou definir nome do arquivo
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+
+        async function carregarJogo(jogo) {
+          try{
+            document.getElementById("jogos").innerHTML = "Carregando..."
+
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            let mensagens = {
+              "Criativo": "O modo Criativo é ideal para quem quer construir livremente. Nele, o jogador tem acesso ilimitado a todos os blocos e itens, pode voar e não sofre dano. É perfeito para criar estruturas incríveis sem se preocupar com perigos.",
+              "Sobrevivencia": "O modo Sobrevivência, o jogador precisa coletar recursos, construir abrigos e se proteger de monstros. Também precisa cuidar da fome e da vida. É o modo que traz mais desafio e é ótimo para quem gosta de explorar e se aventurar.",
+              "Aventura": "O modo Aventura foi feito para mapas personalizados. Nele, o jogador não pode quebrar ou colocar blocos livremente, o que torna o jogo mais controlado, seguindo regras criadas por quem desenvolveu o mapa."
+            };
+
+            document.getElementById("jogos").innerHTML = mensagens[jogo];
+          }
+          catch(erro) {
+            document.getElementById("jogos").innerHTML = "Erro: " + erro.message;
+            console.error("Erro capturado:", erro);
+          }
+        }
+        </script>
+      </section>
+    </main>
+
+  </body>
+</html>
